@@ -1,0 +1,22 @@
+# Filter for the WinRE partition by its known label
+$winREPartition = Get-Partition | Where-Object { $_.GptType -eq '{de94bba4-06d1-4d40-a16a-bfd50179d6ac}' }
+
+# Check if the WinRE partition exists
+if ($winREPartition) {
+    # Convert the size from bytes to megabytes
+    $sizeInMB = $winREPartition.Size / 1MB
+    
+    # Check if the size is at least 250MB
+    if ($winREPartition.Size -ge 250MB) {
+        Write-Output "The WinRE partition size is at least 250MB. Actual size: $sizeInMB MB"
+        exit 0;
+    }
+    else {
+        Write-Output "The WinRE partition size is less than 250MB. Actual size: $sizeInMB MB"
+        exit 1;
+    }
+}
+else {
+    Write-Output "WinRE partition not found."
+    exit 2
+}

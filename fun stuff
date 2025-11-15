@@ -1,0 +1,41 @@
+# Powershell API fun:
+
+## Random Advice
+```powershell
+$r = Invoke-RestMethod "https://api.adviceslip.com/advice"; Write-Host "`n✨ " -NoNewline -ForegroundColor Cyan; Write-Host "COSMIC WISDOM #$($r.slip.id)" -ForegroundColor Yellow; Write-Host ("═" * 60) -ForegroundColor DarkGray; Write-Host "`n   :thought_balloon:  " -NoNewline -ForegroundColor Magenta; Write-Host $r.slip.advice -ForegroundColor White; Write-Host "`n" ("═" * 60) -ForegroundColor DarkGray; Write-Host ""; Start-Sleep -Milliseconds 100; 1..30 | % { Write-Host "🌟" -NoNewline -ForegroundColor $(Get-Random @("Red","Yellow","Green","Cyan","Magenta")); Start-Sleep -Milliseconds 50 }; Write-Host "`n"
+```
+
+## Space Station Location and Crew
+```powershell
+$iss = Invoke-RestMethod "http://api.open-notify.org/iss-now.json"; $people = Invoke-RestMethod "http://api.open-notify.org/astros.json"; Write-Host "`n🚀 INTERNATIONAL SPACE STATION" -ForegroundColor Cyan; Write-Host "📍 Current Location:" -ForegroundColor Yellow; Write-Host "   Latitude:  $($iss.iss_position.latitude)°" -ForegroundColor Green; Write-Host "   Longitude: $($iss.iss_position.longitude)°" -ForegroundColor Green; Write-Host "`n👨‍🚀 $($people.number) humans in space right now:" -ForegroundColor Magenta; $people.people | Group-Object craft | % { Write-Host "`n🛸 $($_.Name):" -ForegroundColor Yellow; $_.Group | % { Write-Host "   • $($_.name)" -ForegroundColor Cyan } }; Write-Host ""
+```
+
+## Dad Joke
+```powershell
+$j = Invoke-RestMethod "https://icanhazdadjoke.com" -Headers @{Accept="application/json"}; Write-Host "`n👨 " -NoNewline -ForegroundColor Yellow; Write-Host "DAD JOKE ALERT!" -ForegroundColor Red; Write-Host ("─" * 50) -ForegroundColor DarkGray; Write-Host "`n💭 $($j.joke)" -ForegroundColor Cyan; Write-Host "`n"; 1..5 | % { Write-Host "😂" -NoNewline; Start-Sleep -Milliseconds 200 }; Write-Host " *ba dum tss*" -ForegroundColor DarkGray
+```
+
+## Cat Fact
+```powershell
+$cat = Invoke-RestMethod "https://catfact.ninja/fact"; Write-Host "`n  /\_/\  " -ForegroundColor Yellow; Write-Host " ( o.o ) " -ForegroundColor Yellow; Write-Host "  > ^ <  " -ForegroundColor Yellow; Write-Host "`n🐱 CAT FACT:" -ForegroundColor Magenta; Write-Host ("═" * ($cat.fact.Length + 4)) -ForegroundColor DarkCyan; Write-Host "  $($cat.fact)" -ForegroundColor White; Write-Host ("═" * ($cat.fact.Length + 4)) -ForegroundColor DarkCyan
+```
+
+## Today in History
+```powershell
+$d = Get-Date; $h = Invoke-RestMethod "https://history.muffinlabs.com/date/$($d.Month)/$($d.Day)"; Write-Host "`n📅 ON THIS DAY IN HISTORY: $($d.ToString('MMMM dd'))" -ForegroundColor Yellow -BackgroundColor DarkBlue; $h.data.Events | Select -First 3 | % { Write-Host "`n:alarm_clock: Year $($_.year):" -ForegroundColor Cyan; Write-Host "   $($_.text)" -ForegroundColor White }
+```
+
+## Your IP Location
+```powershell
+$ip = Invoke-RestMethod "http://ip-api.com/json/"; Write-Host "`n    🌍" -ForegroundColor Blue; Write-Host "YOUR DIGITAL FOOTPRINT" -ForegroundColor Cyan; Write-Host "━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor DarkGray; Write-Host "📍 IP: $($ip.query)" -ForegroundColor Yellow; Write-Host "🏙️  $($ip.city), $($ip.regionName), $($ip.country)" -ForegroundColor Green; Write-Host "🏢 ISP: $($ip.isp)" -ForegroundColor Magenta; Write-Host "📐 Coords: $($ip.lat), $($ip.lon)" -ForegroundColor Cyan
+```
+
+# Wisdom from Yeezy
+```powershell
+$k = Invoke-RestMethod "https://api.kanye.rest"; Write-Host "`n🎤 KANYE SAYS:" -ForegroundColor Magenta -BackgroundColor Black; Write-Host "`n   ❝$($k.quote)❞" -ForegroundColor Yellow; Write-Host "`n                              - Ye" -ForegroundColor DarkGray
+```
+
+## Bitcoin Price 
+```powershell
+$btc = Invoke-RestMethod "https://api.coinbase.com/v2/exchange-rates?currency=BTC"; $price = [math]::Round($btc.data.rates.USD, 2); Write-Host "`n₿ Bitcoin: `$$price USD`n" -ForegroundColor Green
+```
